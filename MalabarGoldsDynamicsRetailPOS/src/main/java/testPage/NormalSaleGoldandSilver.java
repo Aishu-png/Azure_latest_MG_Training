@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import objectRepository.CustomerCreation_Obj;
 import objectRepository.LoginPage_Obj;
 import objectRepository.NormalSaleGoldandSilver_Obj;
 import objectRepository.NormalSalesReturnGoldSilverReturnSaleCounter_Obj;
@@ -45,6 +46,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 	NormalSaleGoldandSilver_Obj NormalSaleGoldAndSilverObj = new NormalSaleGoldandSilver_Obj();
 	NormalSaleGoldandSilver_TestData NormalSaleGoldAndSilverTestData =new NormalSaleGoldandSilver_TestData();
 	NormalSalesReturnGoldSilverReturnSaleCounter_Obj NormalSalesReturnGoldSilverReturnSaleCounterObj = new NormalSalesReturnGoldSilverReturnSaleCounter_Obj();	
+	CustomerCreation_Obj CustomerCreationObj=new CustomerCreation_Obj();
 	NormalSalesReturnGoldSilverReturnSaleCounter_TestData NormalSalesReturnGoldSilverReturnSaleCounterTestData = new NormalSalesReturnGoldSilverReturnSaleCounter_TestData();
 
 	public NormalSaleGoldandSilver(WebDriver driver) {
@@ -68,8 +70,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		Thread.sleep(5000);
 
 		// Step 2: Navigate to the Transaction page
-		base.excuteJsClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.excuteJsClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		// Step 3: Select customer
 		// Step 4: Click on add to estimation
@@ -81,12 +82,12 @@ public class NormalSaleGoldandSilver extends BasePge {
 		// Step 6: Select any one of the sales agent
 		List<String> SkuList = appUtils.SelectMultipleSKUs(NormalSaleGoldAndSilverTestData.SkuCountToAdd,NormalSaleGoldAndSilverTestData.TransferType,NormalSaleGoldAndSilverTestData.FromCounter1,NormalSaleGoldAndSilverTestData.MetalType1);
 		Thread.sleep(2000);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));		
-		SKUTypeResult SkuSilverArticle = appUtils.GetMakingAndPcsRateItems(NormalSaleGoldAndSilverTestData.TransferType, NormalSaleGoldAndSilverTestData.FromCounter2, NormalSaleGoldAndSilverTestData.MetalType2,NormalSaleGoldAndSilverTestData.FromCounter2, NormalSaleGoldAndSilverTestData.Product);
-		List<String> SilverArticleList = SkuSilverArticle.MakingRateSKU;
-		List<String> RequiredSilverArticleList = appUtils.GetRequiredMakingRateItems(2, SilverArticleList);
-
+		appUtils.HamBurgerButtonClick("iconShop");		
+//		SKUTypeResult SkuSilverArticle = appUtils.GetMakingAndPcsRateItems(NormalSaleGoldAndSilverTestData.TransferType, NormalSaleGoldAndSilverTestData.FromCounter2, NormalSaleGoldAndSilverTestData.MetalType2,NormalSaleGoldAndSilverTestData.FromCounter2, NormalSaleGoldAndSilverTestData.Product);
+//		List<String> SilverArticleList = SkuSilverArticle.MakingRateSKU;
+		List<String> RequiredSilverArticleList = appUtils.FetchPieceRateItem(UtilityTestData.SilverArticleSkus, 2);
+		
+        System.out.println("The SilverSkus are:-"+RequiredSilverArticleList);
 		Thread.sleep(3000);
 
 		SkuList.addAll(RequiredSilverArticleList);
@@ -119,7 +120,6 @@ public class NormalSaleGoldandSilver extends BasePge {
 		String NetTotal = Results.get("NetTotal");
 		String LinesCount = Results.get("LinesCount");
 		int ExpectedLinesCount = Integer.parseInt(LinesCount);
-		//	double ExpectedGrossWeight = Double.parseDouble(TotalGrossWeight);
 		double ExpectedSubTotal = Double.parseDouble(SubTotal.trim().replaceAll("[^\\d.]", ""));
 		double ExpectedTax = Double.parseDouble(Gst.trim().replaceAll("[^\\d.]", ""));
 		double ExpectedTotalAmount = Double.parseDouble(InvoiceTotal.trim().replaceAll("[^\\d.]", ""));
@@ -242,13 +242,14 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));
 
 		// Step 12:Choose a sales representative
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
-		appUtils.HandleSpecifyRateModalInRecall();
+		if (base.isPresent(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"))) {
+			base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
+		}		appUtils.HandleSpecifyRateModalInRecall();
 		// Step 13:Click on the Amount
 		// Step 14:Select a Payment method(Cash or Card)
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Amnt("h1"));
 		base.buttonClick(LoginPageObj.Edt_AlertText(NormalSaleGoldAndSilverTestData.TC03_PaymentMethod));
-		String PaymentAmountHDFC=base.GetAttribte(NormalSaleGoldAndSilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
+		String PaymentAmountHDFC=base.GetAttribte(CustomerCreationObj.Ele_ERPCustid("Payment amount"),"value");
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
 		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC03_ApprCode);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
@@ -280,11 +281,8 @@ public class NormalSaleGoldandSilver extends BasePge {
 				SkuList,
 				ItemData
 				);
-		//			appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC03_CustomerID, PdfInvoiceNo,NormalSaleGoldAndSilverTestData.TC03_ReturnProduct);
-		//			appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.ToCounter1, NormalSaleGoldAndSilverTestData.MetalType1, NormalSaleGoldAndSilverTestData.TC03_SkuGold,UtilityTestData.Terminal);
-		//			base.excuteJsClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		//			base.excuteJsClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
-		//			appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.ToCounter2, NormalSaleGoldAndSilverTestData.MetalType2, NormalSaleGoldAndSilverTestData.TC03_SkuSilver,UtilityTestData.Terminal);
+		appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC03_CustomerID, PdfInvoiceNo,NormalSaleGoldAndSilverTestData.TC03_ReturnProducts);
+		appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.ToCounter2, NormalSaleGoldAndSilverTestData.MetalType2, RequiredSilverArticleList, UtilityTestData.Terminal);
 		pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
 	}
 
@@ -300,8 +298,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.setZoom(driver, 70);
 
 		// Step 2: Navigate to the Transaction page
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		// Step 3: Select customer
 		// Step 4: Click on add to estimation
@@ -311,6 +308,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		// Expected:Check calculation Billing Screen, No of Product lines,Displayed Item Name,Displayed Quantity,Displayed TOTAL (without Tax),Displayed Subtotal,TAX,Total Amount
 		// Step 6: Select any one of the sales agent	
 		List <String> SkuValueGoldPiece = appUtils.FetchPieceRateItem(UtilityTestData.GoldPieceRateSkus, 2);
+		
 		List<String> ItemNames           = new ArrayList<>();
 		List<String> TotalForEachItem    = new ArrayList<>();
 		List<String> Quantity            = new ArrayList<>();
@@ -463,17 +461,17 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));
 
 		// Step 12:Choose a sales representative
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
 
 		// Step 13:Click on the Amount
 		// Step 14:Select a Payment method(Cash or Card)
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Amnt("h1"));
 		base.buttonClick(LoginPageObj.Edt_AlertText(NormalSaleGoldAndSilverTestData.TC04_PaymentMethod));
-		String PaymentAmountHDFC = base.GetAttribte(NormalSaleGoldAndSilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
+		String PaymentAmountHDFC = base.GetAttribte(CustomerCreationObj.Ele_ERPCustid("Payment amount"),"value");
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC04_ApprCode);
+		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),UtilityTestData.ApprCode);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC04_CardNo);
+		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),UtilityTestData.CardNumber);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("Close"));
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
@@ -503,159 +501,174 @@ public class NormalSaleGoldandSilver extends BasePge {
 				);
 		pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
 		appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC04_CustomerNo, PdfInvoiceNo,NormalSaleGoldAndSilverTestData.ReturnProducts);
+		
+		if(base.isPresent(NormalSaleGoldAndSilverObj.Ele_Payement("Error"))) {
+			base.ClickCondition(LoginPageObj.Btn_SignInButton("OK"));
+		}
+		
 		Thread.sleep(2000);
 		appUtils.CounterFlow("Gold", "Gold", SkuValueGoldPiece, UtilityTestData.Terminal);
 	}
 
 	/// <summary>
-	/// Test Case Title : Normal sale multiple silver piece rate
-	/// Automation ID : TC05
-	/// Author : Jhoncy
-	/// </summary>
-	public void TC05_NormalSaleGoldandSilver() throws Exception
-	{
-		//Step 1: Login to POS
-		Login.loginToApplication(CommonData.UserName1, CommonData.PassWord1);
-		base.setZoom(driver, 70);
-
-		// Step 2: Click on Transaction button
-		Thread.sleep(3000);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
-
-		// Step 3: Select customer
-		// Step 4: Click on add to estimate button
-		appUtils.SearchByCustomerID(NormalSaleGoldAndSilverTestData.TC05_CustomerID, UtilityTestData.MenuBarOptions[5]);
-
-		//Step 5 : Scan silver piece rate SKU and click on Add to cart button
-		//Step 6 : Select any one of the sales agent
-		//Expected Result : Check Calculations
-		//Check calculation : Billing Screen, No of Product lines, Displayed Item Name, Displayed Quantity, Displayed TOTAL (without Tax), Displayed Subtotal,
-		//TAX , Total Amount
-		Map<String, String> SkuDetails = new LinkedHashMap<>();    
-		List <String> RequiredPieceRateSku = appUtils.FetchPieceRateItem(UtilityTestData.SilverPieceRateSkus, 2);
-
-		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));		
-
-		//Map<String, String> SkuDetails = new LinkedHashMap<>();		
-		for (int i = 0;i < RequiredPieceRateSku.size(); i++)
+		/// Test Case Title : Normal sale multiple silver piece rate
+		/// Automation ID : TC05
+		/// Author : Jhoncy
+		/// </summary>
+		public void TC05_NormalSaleGoldandSilver() throws Exception
 		{
-			String CurrentSku = RequiredPieceRateSku.get(i);
-			int SkuCount = i + 1;
-			appUtils.SKUIngridentTableValues(CurrentSku.toString(), SkuCount, SkuDetails);
-			Map<String, String> CurrentSkuData = appUtils.ExtractDataForSku(SkuDetails, SkuCount);
-			mathUtils.SkuIngredientItemCalculation(CurrentSkuData, SkuCount);
+			//Step 1: Login to POS
+			Login.loginToApplication(CommonData.UserName1, CommonData.PassWord1);
+			base.setZoom(driver, 70);
+
+			// Step 2: Click on Transaction button
+			Thread.sleep(3000);
+			appUtils.HamBurgerButtonClick("iconShop");
+
+			// Step 3: Select customer
+			// Step 4: Click on add to estimate button
+			appUtils.SearchByCustomerID(NormalSaleGoldAndSilverTestData.TC05_CustomerID, UtilityTestData.MenuBarOptions[5]);
+
+			//Step 5 : Scan silver piece rate SKU and click on Add to cart button
+			//Step 6 : Select any one of the sales agent
+			//Expected Result : Check Calculations
+			//Check calculation : Billing Screen, No of Product lines, Displayed Item Name, Displayed Quantity, Displayed TOTAL (without Tax), Displayed Subtotal,
+			//TAX , Total Amount
+			Map<String, String> SkuDetails = new LinkedHashMap<>();    
+			List <String> RequiredPieceRateSku = appUtils.FetchPieceRateItem(Utility_TestData.SilverPieceRateSkus, 2);
+
+			//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
+			//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));		
+
+			//Map<String, String> SkuDetails = new LinkedHashMap<>();		
+			for (int i = 0;i < RequiredPieceRateSku.size(); i++)
+			{
+				String CurrentSku = RequiredPieceRateSku.get(i);
+				int SkuCount = i + 1;
+				appUtils.SKUIngridentTableValues(CurrentSku.toString(), SkuCount, SkuDetails);
+				Map<String, String> CurrentSkuData = appUtils.ExtractDataForSku(SkuDetails, SkuCount);
+				mathUtils.SkuIngredientItemCalculation(CurrentSkuData, SkuCount);
+			}
+
+			List<String> SkuList = RequiredPieceRateSku;
+			Map<String, String> TransactionPageItems = appUtils.TransactionSKUsLinesVerify(SkuList, SkuDetails);
+			String SubTotal = TransactionPageItems.get("Subtotal");
+			String Discount = TransactionPageItems.get("Discount");
+			String TotalGrossWeight = TransactionPageItems.get("GrossWeight");
+			String TotalNetWeight = TransactionPageItems.get("NetWeight");
+			String Tax = TransactionPageItems.get("Tax");
+			String TotalAmount = TransactionPageItems.get("TotalAmount");
+			String NetTotal = TransactionPageItems.get("NetTotal");
+			String LinesCount = TransactionPageItems.get("LinesCount");
+			mathUtils.ValidateTransactionLineCalculation(TransactionPageItems, SkuDetails);
+
+			//Step 7 : Click on Save to estimation button
+			base.buttonClick(LoginPageObj.Edt_AlertText("Billing"));
+
+			//Step 8 : Save estimate
+			//Expected Result : Verify the invoice details
+			base.buttonClick(LoginPageObj.Edt_AlertText("Save To Estimate"));
+			String EstmnNumber=base.GetValue(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Estimation no"));
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAdd"));
+
+			Thread.sleep(3000);
+			String ProFormaInvoiceName = pdfUtils.DownloadAndRenameLatestPDF("TC05_ProformaInvoice");
+			Thread.sleep(3000);
+			String ProFormaInvoicePath =System.getProperty("user.dir") + "\\Invoices\\"+ProFormaInvoiceName+"";
+			String Gst= Tax;
+			String TaxableValue=SubTotal;
+			String InvoiceTotal=TotalAmount;
+			pdfUtils.ProFormaInvoicePDFVerifyNormal(
+					ProFormaInvoicePath,
+					TaxableValue,
+					Gst,
+					InvoiceTotal,
+					NetTotal,
+					LinesCount,
+					Double.parseDouble(TotalGrossWeight),
+					Double.parseDouble(TotalNetWeight));
+
+			//Step 9 : Recall estimate from cashier screen
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Cash("tab-button-ButtonGrid2","text semilight primaryFontColor"));
+			base.buttonClick(LoginPageObj.Edt_AlertText("Recall Estimate"));
+			base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
+			base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
+			base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
+			base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
+
+			//Step 10 : Select estimate and click on recall estimation
+			//Expected Results : Verify whether the recalled item is the same as the item in the cart.
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell",EstmnNumber));
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconGo"));
+
+			//Step 11 : Select the Transaction Type as Sales
+			base.buttonClick(NormalSaleGoldAndSilverObj.Sel_BankProofType("Transaction type"));
+			base.selectorByVisibleText(NormalSaleGoldAndSilverObj.Sel_BankProofType("Transaction type"),NormalSaleGoldAndSilverTestData.TC05_TransactionType);
+
+			//Step 12 : Click on Process Estimation
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));  
+
+			//Step 13 : Choose a sales representative
+			// Expected Result: Validate Cashier Screen after recall *No of Product lines*Displayed Item Name*Displayed Quantity*Displayed TOTAL (without Tax)*Displayed Subtotal*TAX*Total Amount
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+			if (base.isPresent(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"))) {
+				base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
+			}
+			Map<String, String> TransactionRecallDataLine = appUtils.TransactionSKUsLinesVerify(SkuList, SkuDetails);	
+			mathUtils.ValidateTransactionLineCalculation(TransactionRecallDataLine, SkuDetails);
+
+			//Step 14 : Click on the Amount
+			//Step 15 : Select a Payment method(Cash or Card)
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Amnt("h1"));
+//			base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Credit Card)"));
+//			String PaymentAmountHDFC=base.GetAttribte(CustomerCreationObj.Ele_ERPCustid("Payment amount"),"value");
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
+//			base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC05_ApprCode);
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
+//			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+//			base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC05_CardNo);
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("Close"));
+//			Thread.sleep(3000);
+//			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
+
+
+			String PaymentAmountHDFCCard = appUtils.PaymentAfterRecallEstimate("HDFC").replaceAll("[^\\d.]", "").trim();
+			
+			String PaymentAmountHDFC = PaymentAmountHDFCCard;
+			Thread.sleep(3000);
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
+
+			//Step 16 : Post the Invoice
+			//Expected Result : Check final invoice details
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));	
+			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("PRINT"));
+			Thread.sleep(2000);
+			String SaleInvoice= pdfUtils.DownloadAndRenameLatestPDF("TC05_TaxInvoice");
+			String SalesInvoicePath =System.getProperty("user.dir") + "\\Invoices\\"+SaleInvoice+"";
+			String GrossAmount = SubTotal;
+			String TotalDiscount=Discount;
+			String TotalQtyPcs=LinesCount;
+			String NetValue=PaymentAmountHDFCCard;
+
+			String PdfInvoiceNo = pdfUtils.SaleInvoicePdfValidation(
+					SalesInvoicePath,
+					GrossAmount,
+					TotalDiscount,
+					TotalQtyPcs,
+					TotalNetWeight,
+					TotalGrossWeight,
+					TaxableValue,
+					NetValue,
+					PaymentAmountHDFC,
+					SkuList,
+					SkuDetails);
+
+			appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC05_CustomerID, PdfInvoiceNo, NormalSaleGoldAndSilverTestData.TC05_ReturnProducts);
+			appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.TC05_FromCounter,NormalSaleGoldAndSilverTestData.TC05_MetalType,RequiredPieceRateSku ,UtilityTestData.Terminal);
+			pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
+			
 		}
-
-		List<String> SkuList = RequiredPieceRateSku;
-		Map<String, String> TransactionPageItems = appUtils.TransactionSKUsLinesVerify(SkuList, SkuDetails);
-		String SubTotal = TransactionPageItems.get("Subtotal");
-		String Discount = TransactionPageItems.get("Discount");
-		String TotalGrossWeight = TransactionPageItems.get("GrossWeight");
-		String TotalNetWeight = TransactionPageItems.get("NetWeight");
-		String Tax = TransactionPageItems.get("Tax");
-		String TotalAmount = TransactionPageItems.get("TotalAmount");
-		String NetTotal = TransactionPageItems.get("NetTotal");
-		String LinesCount = TransactionPageItems.get("LinesCount");
-		mathUtils.ValidateTransactionLineCalculation(TransactionPageItems, SkuDetails);
-
-		//Step 7 : Click on Save to estimation button
-		base.buttonClick(LoginPageObj.Edt_AlertText("Billing"));
-
-		//Step 8 : Save estimate
-		//Expected Result : Verify the invoice details
-		base.buttonClick(LoginPageObj.Edt_AlertText("Save To Estimate"));
-		String EstmnNumber=base.GetValue(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Estimation no"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAdd"));
-
-		Thread.sleep(3000);
-		String ProFormaInvoiceName = pdfUtils.DownloadAndRenameLatestPDF("TC05_ProformaInvoice");
-		Thread.sleep(3000);
-		String ProFormaInvoicePath =System.getProperty("user.dir") + "\\Invoices\\"+ProFormaInvoiceName+"";
-		String Gst= Tax;
-		String TaxableValue=SubTotal;
-		String InvoiceTotal=TotalAmount;
-		pdfUtils.ProFormaInvoicePDFVerifyNormal(
-				ProFormaInvoicePath,
-				TaxableValue,
-				Gst,
-				InvoiceTotal,
-				NetTotal,
-				LinesCount,
-				Double.parseDouble(TotalGrossWeight),
-				Double.parseDouble(TotalNetWeight));
-
-		//Step 9 : Recall estimate from cashier screen
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Cash("tab-button-ButtonGrid2","text semilight primaryFontColor"));
-		base.buttonClick(LoginPageObj.Edt_AlertText("Recall Estimate"));
-		base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
-		base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
-		base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
-		base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
-
-		//Step 10 : Select estimate and click on recall estimation
-		//Expected Results : Verify whether the recalled item is the same as the item in the cart.
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell",EstmnNumber));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconGo"));
-
-		//Step 11 : Select the Transaction Type as Sales
-		base.buttonClick(NormalSaleGoldAndSilverObj.Sel_BankProofType("Transaction type"));
-		base.selectorByVisibleText(NormalSaleGoldAndSilverObj.Sel_BankProofType("Transaction type"),NormalSaleGoldAndSilverTestData.TC05_TransactionType);
-
-		//Step 12 : Click on Process Estimation
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));  
-
-		//Step 13 : Choose a sales representative
-		// Expected Result: Validate Cashier Screen after recall *No of Product lines*Displayed Item Name*Displayed Quantity*Displayed TOTAL (without Tax)*Displayed Subtotal*TAX*Total Amount
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));	
-		Map<String, String> TransactionRecallDataLine = appUtils.TransactionSKUsLinesVerify(SkuList, SkuDetails);	
-		mathUtils.ValidateTransactionLineCalculation(TransactionRecallDataLine, SkuDetails);
-
-		//Step 14 : Click on the Amount
-		//Step 15 : Select a Payment method(Cash or Card)
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Amnt("h1"));
-		base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Credit Card)"));
-		String PaymentAmountHDFC=base.GetAttribte(NormalSaleGoldAndSilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC05_ApprCode);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC05_CardNo);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("Close"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
-
-		//Step 16 : Post the Invoice
-		//Expected Result : Check final invoice details
-		Thread.sleep(2000);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("PRINT"));
-		Thread.sleep(2000);
-		String SaleInvoice= pdfUtils.DownloadAndRenameLatestPDF("TC05_TaxInvoice");
-		String SalesInvoicePath =System.getProperty("user.dir") + "\\Invoices\\"+SaleInvoice+"";
-		String GrossAmount = SubTotal;
-		String TotalDiscount=Discount;
-		String TotalQtyPcs=LinesCount;
-		String NetValue=NetTotal;
-
-		String PdfInvoiceNo = pdfUtils.SaleInvoicePdfValidation(
-				SalesInvoicePath,
-				GrossAmount,
-				TotalDiscount,
-				TotalQtyPcs,
-				TotalNetWeight,
-				TotalGrossWeight,
-				TaxableValue,
-				NetValue,
-				PaymentAmountHDFC,
-				SkuList,
-				SkuDetails);
-
-		appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC05_CustomerID, PdfInvoiceNo, NormalSaleGoldAndSilverTestData.TC05_ReturnProducts);
-		appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.TC05_FromCounter,NormalSaleGoldAndSilverTestData.TC05_MetalType,RequiredPieceRateSku ,UtilityTestData.Terminal);
-		pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
-	}
 
 	// <summary>
 	// Test Case Title : Normal Sale Multiple Gold
@@ -669,20 +682,21 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.setZoom(driver, 60);
 
 		// Step 2: Click on Transaction button
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		Thread.sleep(5000);
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		// Step 3: Select customer
 		// Step 4: Click on add to estimation button
-		appUtils.SearchByCustomerID(NormalSaleGoldAndSilverTestData.TC01_CustomerNo,"AddCustomerForSalesEstimationCommand");
+		appUtils.SearchByCustomerID(NormalSaleGoldAndSilverTestData.TC01_CustomerNo,Utility_TestData.MenuBarOptions[5]);
 
 		// Step 5: Scan gold SKU and click on Add to cart button
 		// Step 6: Scan another gold SKU and click on Add to cart button
 		// Step 7: Select any one of the sales agent
 		// Expected Result: Check calculation Note:Billling Screen *No of Product lines*Displayed Item Name*Displayed Quantity*Displayed TOTAL (without Tax)*Displayed Subtotal*TAX*Total Amount
 		List<String> SkuList = appUtils.SelectMultipleSKUs(NormalSaleGoldAndSilverTestData.TC01_SkuGoldCount,NormalSaleGoldAndSilverTestData.TC01_TransferType,NormalSaleGoldAndSilverTestData.TC01_FromCounter,NormalSaleGoldAndSilverTestData.TC01_MetalType);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		Map<String, String> ScannedSkuDataMap = new LinkedHashMap<>();
 		for (int i = 0; i < SkuList.size(); i++) {
 			int SkuNumber = i + 1;
@@ -758,15 +772,21 @@ public class NormalSaleGoldandSilver extends BasePge {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));
 
-		// Step 13: Select any Sales Representative
+		// Step 13: Select any Sales Representative [Due to new Fix in the application this step is Removed] 
 		// Expected Result: Verify whether the recalled item is the same as the item in the cart.Note:-13.Cashier Screen after recall*No of Product lines*Displayed Item Name*Displayed Quantity*Displayed TOTAL (without Tax)*Displayed Subtotal*TAX*Total Amount
-		base.setZoom(driver, 60);
-		Thread.sleep(3000);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
 		appUtils.HandleSpecifyRateModalInRecall();
-
 		Map<String, String> TransactionRecallDataLine = appUtils.TransactionSKUsLinesVerify(SkuList, ScannedSkuDataMap);
-		mathUtils.ValidateTransactionLineCalculation(TransactionRecallDataLine, ScannedSkuDataMap);
+		for (String Key : TransactionDataLine.keySet()) {
+		    String ExpectedValue = TransactionDataLine.get(Key);        // Billing Page value
+		    String ActualValue   = TransactionRecallDataLine.get(Key);  // Cashier Screen value
+		    if (ExpectedValue == null && ActualValue == null) { System.out.println("Billing Page vs Cashier Screen: Identical values for '" + Key + "' – both values are null");
+		    } else if (ExpectedValue != null && ExpectedValue.equals(ActualValue)) {
+		        System.out.println("Billing Page vs Cashier Screen: Identical values for '" + Key + "' " +"Billing Page = [" + ExpectedValue + "], Cashier Screen = [" + ActualValue + "]");
+		    } else {
+		        asrt.assertEquals(ActualValue,ExpectedValue,"Billing Page vs Cashier Screen: Mismatch in '" + Key + "' " + "Billing Page = [" + ExpectedValue + "], Cashier Screen = [" + ActualValue + "]");
+		    }
+		}
+		//mathUtils.ValidateTransactionLineCalculation(TransactionRecallDataLine, ScannedSkuDataMap);
 
 		// Step 14:  Click on the Amount
 		// Expected Result: User should able to click the amount
@@ -774,14 +794,16 @@ public class NormalSaleGoldandSilver extends BasePge {
 
 		// Step 15:  Select a Payment method(Cash or Card)
 		// Expected Result: User should able to select the Payement Method
-		base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Credit Card)"));
-		String PaymentHDFCCard = base.GetAttribte(NormalSaleGoldAndSilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
+		//base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Credit Card)"));
+		base.ClickCondition(NormalSaleGoldAndSilverObj.Ele_CustomerAdjustment("HDFC"));
+		String PaymentHDFCCard = base.GetAttribte(CustomerCreationObj.Ele_ERPCustid("Payment amount"),"value");
 		base.excuteJsClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
 		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC01_ApprovalCode);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
 		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC01_ApprovalCodeAgain);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("Close"));
+		//String PaymentHDFCCard = appUtils.PaymentAfterRecallEstimate("HDFC").replaceAll("[^\\d.]", "").trim();
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
 
 		// Step 16:  Post the Invoice
@@ -807,7 +829,6 @@ public class NormalSaleGoldandSilver extends BasePge {
 				PaymentHDFCCard,
 				SkuList,
 				ScannedSkuDataMap);
-
 		pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
 		return PdfInvoiceNo;
 	}
@@ -825,9 +846,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 
 		// Step 2: Navigate to the Transaction page 
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
-
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		// Step 3 : Select customer and click in add to estimate button
 		// Step 4 : Click on add to estimate button	
@@ -840,8 +859,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		List<String> MultipleGoldSkus      = appUtils.SelectMultipleSKUs( NormalSaleGoldAndSilverTestData.TC02_SKUCount,NormalSaleGoldAndSilverTestData.TC02_TranferType,
 				NormalSaleGoldAndSilverTestData.TC02_FromCounterGold,NormalSaleGoldAndSilverTestData.TC02_MetalTypeGold);
 
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		List<String> MultipleSilverSkus = appUtils.SelectMultipleSKUs( NormalSaleGoldAndSilverTestData.TC02_SKUCount,NormalSaleGoldAndSilverTestData.TC02_TranferType,
 				NormalSaleGoldAndSilverTestData.TC02_FromCounterSilver,NormalSaleGoldAndSilverTestData.TC02_MetalTypeSilver);
@@ -855,8 +873,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		List<String> TotalForEachItem = new ArrayList<>();
 		Map<String, String> ItemData  = new HashMap<>();
 
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		for (int i = 0; i < RequiredSkus.size(); i++)
 		{   Thread.sleep(2000);
@@ -962,9 +979,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Cash("tab-button-ButtonGrid2","text semilight primaryFontColor"));
 		base.buttonClick(LoginPageObj.Edt_AlertText("Recall Estimate"));
 		base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
-		base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
-		base.excuteJsClick(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"));
-		base.setData(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
+		base.ClickClearEnter(NormalSaleGoldAndSilverObj.Ele_EstmnNumber("Filter"), EstmnNumber);
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell",EstmnNumber));
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconGo"));
 
@@ -999,13 +1014,11 @@ public class NormalSaleGoldandSilver extends BasePge {
 
 		// Step 11:Click on Process Estimation
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));
-
-		// Step 12:Choose a sales representative
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
 		appUtils.HandleSpecifyRateModalInRecall();
+
 		// Step 13:Click on the Amount
 		// Step 14:Select a Payment method(Cash or Card)
-		String PaymentAmount = appUtils.PaymentAfterRecallEstimate("HDFC");
+		String PaymentAmount = appUtils.PaymentAfterRecallEstimate("HDFC").replaceAll("[^\\d.]", "").trim();;
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
 
 		// Step 15:  Post the Invoice
@@ -1016,7 +1029,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		String TaxableValue   = SubTotal;
 		String TotalQtyPcs    = LinesCount;
 		String TotalDiscount  = Discount;
-		String NetValue       = String.format("%.2f", Double.parseDouble(NetTotal.trim().replaceAll("[^\\d.]", "")));
+		String NetValue       = PaymentAmount;
 		String PdfInvoiceNo   = pdfUtils.SaleInvoicePdfValidation(
 				TaxInvoice,
 				GrossAmount,
@@ -1033,7 +1046,6 @@ public class NormalSaleGoldandSilver extends BasePge {
 		pdfUtils.DeleteAllPDFFilesInInvoiceFolder();
 	}
 
-
 	// <summary>
 	// Test Case Title : Normal sale with multiple piece rate items and making rate items
 	// Automation ID : TC06
@@ -1046,7 +1058,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.setZoom(driver, 70);
 
 		// Step 2: Click on Transaction button
-		base.excuteJsClick(LoginPageObj.Ele_ErrorMessage("width48 height48 buttonIcon center iconShop"));
+		appUtils.HamBurgerButtonClick("iconShop");
 
 		// Step 3: Select customer
 		// Step 4: Click on add to estimation
@@ -1062,13 +1074,12 @@ public class NormalSaleGoldandSilver extends BasePge {
 		List <String> RequiredPieceRateSku = appUtils.FetchPieceRateItem(UtilityTestData.SilverPieceRateSkus, 1);	
         //base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
 		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));
-		base.actionClick(LoginPageObj.Ele_ErrorMessage("width48 height48 buttonIcon center iconShop"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		
 
 		List<String> MultipleSilverSkus = appUtils.SelectMultipleSKUs( NormalSaleGoldAndSilverTestData.TC06_SkuCount,NormalSaleGoldAndSilverTestData.TC06_TransferType,
 				NormalSaleGoldAndSilverTestData.TC06_ToCounter,NormalSaleGoldAndSilverTestData.TC06_MetalType);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));		
+		appUtils.HamBurgerButtonClick("iconShop");		
 
 		Thread.sleep(1000);
 		List<String> AllSkuList  	  = new ArrayList<>();
@@ -1246,21 +1257,15 @@ public class NormalSaleGoldandSilver extends BasePge {
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Estimation("win-disposable win-command AppBarCommand iconAccept"));
 
 		// Step 12:Choose a sales representative
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Ele_SKUNumber("margin0 h5 ellipsis maxWidth220", "1"));
 		appUtils.HandleSpecifyRateModalInRecall();
 
 		// Step 13:Click on the Amount
 		// Step 14:Select a Payment method(Cash or Card)
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Amnt("h1"));
-		base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Credit Card)"));
-		String PaymentAmountHDFC = base.GetAttribte(NormalSaleGoldAndSilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC06_ApprCode);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
-		base.setData(NormalSaleGoldAndSilverObj.Edt_ApprCode("textInputArea"),NormalSaleGoldAndSilverTestData.TC06_CardNo);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("OK"));
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Deposit("Close"));
+		String PaymentAmountHDFC = appUtils.PaymentAfterRecallEstimate("HDFC").replaceAll("[^\\d.]", "").trim();
 		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_Transaction("h4 ellipsis cell", "Original For Recipient"));
+		
+//	
 
 		// Step 15:Post the Invoice
 		// Expected:Check final invoice details
@@ -1270,7 +1275,7 @@ public class NormalSaleGoldandSilver extends BasePge {
 		String GrossAmount=SubTotal;
 		String TotalQtyPcs = LinesCount;
 		String TotalDiscount = Discount;
-		String NetValue = NetTotal;
+		String NetValue = PaymentAmountHDFC;
 		String PdfInvoiceNo = pdfUtils.SaleInvoicePdfValidation(
 				TaxInvoicePath,
 				GrossAmount,
@@ -1286,6 +1291,10 @@ public class NormalSaleGoldandSilver extends BasePge {
 				);
 
 		appUtils.SalesReturnFlow(NormalSaleGoldAndSilverTestData.TC06_CustId, PdfInvoiceNo, NormalSaleGoldAndSilverTestData.TC06_ReturnProducts);
+		if(base.isPresent(NormalSaleGoldAndSilverObj.Ele_Payement("Error"))) {
+			base.ClickCondition(LoginPageObj.Btn_SignInButton("OK"));
+		}
+		Thread.sleep(1000);
 		appUtils.CounterFlow(NormalSaleGoldAndSilverTestData.TC06_ToCounter,NormalSaleGoldAndSilverTestData.TC06_MetalType,RequiredPieceRateSku,UtilityTestData.Terminal);
 		pdfUtils.DeleteAllPDFFilesInInvoiceFolder(); 
 	}

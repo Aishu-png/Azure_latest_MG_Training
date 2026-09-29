@@ -1,0 +1,20 @@
+package testScenario.OptionsToMergeDifferentCustomersGPPSchemesInASingleBill;
+
+import utilPack.BaseTest;
+
+import org.testng.annotations.Test;
+import testPage.OptionsToMergeDifferentCustomersGPPSchemesInASingleBill;
+
+
+public class OptionsToMergeDifferentCustomersGPPSchemesInASingleBill_Test extends BaseTest{
+
+	OptionsToMergeDifferentCustomersGPPSchemesInASingleBill optionsToMergeDifferentCustomersGPPSchemesInASingleBill;
+
+	@Test
+	public void TC271_OptionsToMergeDifferentCustomersGPPSchemesInASingleBillTest() throws Exception 
+	{	
+		optionsToMergeDifferentCustomersGPPSchemesInASingleBill = new OptionsToMergeDifferentCustomersGPPSchemesInASingleBill(getDriver());
+		optionsToMergeDifferentCustomersGPPSchemesInASingleBill.TC271_OptionsToMergeDifferentCustomersGPPSchemesInASingleBill();
+	}
+
+}

@@ -9,29 +9,26 @@ import utilPack.BasePge;
 public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData 
 {
 	//TC13_MultipleSalesReturnSilver
-	public static String TC13_CustID = "33CA00161606";
+	public static String TC13_CustID = "9633479003";
 	public static List<String> TC13_ItemList = Arrays.asList("2", "Silver", "Silver");
 	public static List<String> TC13_ReturnProducts = Arrays.asList("Silver","Silver");
-	public static String TC13_CustomerName         = "ANAGHA S";
+	public static String TC13_CustomerName         = "MANASVINI MANOJ";
 	public static String TC13_ToCounter="Silver";
 	public static String TC13_MetalType="Silver";	
 	public static String TC13_PaymentMode = "Convert to Advance";
 	public static String TC13_SalePersonNumber = "3";
-	public static String TC13_SalePersonName = "A S Kannan";
-	public static String TC13_DueYear = "2026";
+	public static String TC13_SalePersonName = "Ajith R";
+	public static String TC13_DueYear = "2029";
 	public static String TC13_NomineeName = "qwerty";
 	public static String TC13_NomineeRelation = "Brother";
 	public static String TC13_NomineeAddress = "Tvm";
 	public static String TC13_DepositType = "Normal Advance";
-	//public static String TC13_ReceiptNumber = "5011A06IN0010020";
-	//public static List<String> TC13_SkuValue       = Arrays.asList("100007906779","100003929989");
 
 	//TC20
-	public static String TC20_CustomerId = "33CA00161596";
-	public static String TC20_ReceiptNumber = "5011T05IN0010039";
+	public static String TC20_CustomerId = "9633479003";
 	public static String TC20_PaymentMode = "Convert to Advance";
 	public static String TC20_SalePersonNumber = "3";
-	public static String TC20_SalePersonName = "A S Kannan";
+	public static String TC20_SalePersonName = "Ajith R";
 	public static String TC20_DueYear = "2026";
 	public static String TC20_NomineeName = "Name";
 	public static String TC20_NomineeRelation = "Sister";
@@ -45,10 +42,9 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	//TC14_SalesReturnMultipleGoldandSilver
 	public static String TC14_CustID = "7558852527";
 	public static String TC14_Option = "CustomerSearch_addSelectedCustomerToCartCommand";
-	public static String TC14_ReceiptNumber = "5011T04IN0010012";
 	public static String TC14_PaymentMode = "Convert to Advance";
 	public static String TC14_SalePersonNumber = "3";
-	public static String TC14_SalePersonName = "A S Kannan";
+	public static String TC14_SalePersonName = "Ajith R";
 	public static String TC14_DueYear = "2026";
 	public static String TC14_NomineeName = "Manu";
 	public static String TC14_NomineeRelation = "Brother";
@@ -64,10 +60,8 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	//TC15_SalesReturnMultipleGoldandSilver
 	public static String TC15_CustomerNo= "7907501134";
 	public static String TC15_CustomerName="LAVANYA T";
-	public static String TC15_Option = "CustomerSearch_addSelectedCustomerToCartCommand";
 	public static String TC15_PaymentMode = "Convert to Advance";
 	public static String TC15_SalePersonNumber = "3";
-	public static String TC15_SalePersonName = "A S Kannan";
 	public static String TC15_DueYear = "2026";
 	public static String TC15_NomineeName = "Manu";
 	public static String TC15_NomineeRelation = "Brother";
@@ -88,10 +82,14 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	public static String TC15_ApprovalCodeAgain = "12345";
 	public static String TC15_TransationType = "Sales Return";
 	public static String TC15_TransationType2 = "Sales";
-
+	public static List<String> TC15_ReturnProducts = Arrays.asList("2", "Gold", "Gold");
+	public static String TC113_GrossPieces                     = "1";
+	public static String TC113_GrossWeight                     = "1";
+	public static String TC113_Purity                          = "24k";
+	
 
 	//TC16
-	public static String TC16_CustomerNo                = "33CA00161610";
+	public static String TC16_CustomerNo                = "8943319676";
 	public static String TC16_CustomerName              = "CHRISTY REJI";	
 	public static int TC16_SKUCount                     = 1;
 	public static String TC16_TranferType               = "Inter";
@@ -104,7 +102,7 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	public static List<String> TC16_ItemList            = Arrays.asList("1","Silver","Silver");
 
 	//TC17_CounterInAndStockSummary
-	public static String TC17_CustomerID="33CA00161604";
+	public static String TC17_CustomerID="8137821298";
 	public static List<String> CounterTransfer= Arrays.asList("1","Gold","Gold");
 	public static List<String> TC17_ReturnProducts= Arrays.asList("Gold");
 	public static String TC17_ToCounter="Gold";
@@ -112,7 +110,7 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	public static String TC17_Terminal="5011T02";
 
 	//TC18
-	public static String TC18_CustomerId = "33CA00161595";	
+	public static String TC18_CustomerId = "8943319676";	
 	public static String TC18_TransactionType = "Sales";
 	public static String TC18_PaymentMethod = "HDFC (Credit Card)";
 	public static String TC18_ApprCode = "12345";
@@ -121,34 +119,30 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	public static List<String> ReturnProducts=Arrays.asList("Gold");
 
 	//TC19
-	public static String TC19_CustomerNo        = "33CA00161603";
+	public static String TC19_CustomerNo        = "7561066863";
 	public static String TC19_CustomerName      ="ROBIN ABRAHAM";
 	public static String TC19_Option 	        = "CustomerSearch_addSelectedCustomerToCartCommand";
 	public static String TC19_PaymentMode       = "Convert to Advance";
-
 	public static String TC19_SalePersonNumber  = "3";
-	public static String TC19_SalePersonName    = "A S Kannan";
+	public static String TC19_SalePersonName    = "Ajith R";
 	public static String TC19_NomineeName       = "Grace";
 	public static String TC19_DueYear           = "2026";
 	public static String TC19_NomineeRelation   = "Sister";
 	public static String TC19_DepositType       = "Normal Advance";
-
 	public static int    TC19_SkuGoldCount      = 2;
 	public static String TC19_TransferType      = "Inter";
 	public static String TC19_FromCounter       = "Gold";
 	public static String TC19_MetalType         = "Gold";
-
 	public static List<String> TC19_ReturnProducts    = Arrays.asList("Gold");	 
 	public static List<String> TC19_SkuList     = Arrays.asList("1","Gold","Gold");
-
 	public static String TC19_ApprovalCode      = "12345";
 	public static String TC19_ApprovalCodeAgain = "12345";
 	public static String TC19_TransationType    = "Sales Return";
 	public static String TC19_TransationType2   = "Sales";
 
 	//TC12
-	public static String TC12_CustomerNo = "33CA00161601";
-	public static String TC12_CustomerName = "JHONCY JOSEPH";
+	public static String TC12_CustomerNo = "9633479003";
+	public static String TC12_CustomerName = "MANASVINI MANOJ";
 	public static int    TC12_SkuGoldCount = 2;
 	public static String TC12_TransferType = "Inter";
 	public static String TC12_FromCounter = "Gold";
@@ -160,5 +154,46 @@ public class NormalSalesReturnGoldSilverReturnSaleCounter_TestData
 	public static List<String> TC12_ItemList           = Arrays.asList("1","Gold","Gold");
 	public static List<String> TC12_ReturnProducts      = Arrays.asList("Gold");
 
+	//TC21
+		public static List<String>TC21_Products           = Arrays.asList("2", "Gold", "Gold");
+		public static List<String>TC21_ProductsToReturn   = Arrays.asList("Gold", "Gold");
+		public static String TC21_CustomerNo			  = "7907501134";
+		public static String TC21_CustomerName			  = "LAVANYA T";
+		public static int    TC21_SaleProductCount 		  = 1;
+		public static String TC21_TransferType			  = "Inter";
+		public static String TC21_FromCounter 			  = "Gold";
+		public static String TC21_MetalType 			  = "Gold";
+		public static String TC21_OldProduct 			  = "OG";
+		public static String TC21_Configuration 		  = "22k";
+		public static String TC21_Pieces 				  = "1";
+		public static String TC21_GrossWeight 			  = "2";
+		public static String TC21_PaymentMode 			  = "Convert to Advance";
+		public static String TC21_TransactionTypeReturn   = "Sales Return";
+		public static String TC21_TransactionTypeExchange = "Exchange";
+		public static String TC21_TransactionTypeSales    = "Sales";
+		
+
+	//TC22
+	public static String TC22_CustomerId     		= "9995177669";
+	public static String TC22_CustomerName   		= "HASNA EK";	
+	public static int TC22_SKUCount          		= 2;
+	public static String TC22_TranferType    		= "Inter";
+	public static String TC22_FromCounter    		= "Gold";
+	public static String TC22_MetalType      		= "Gold";
+	public static List<String> TC22_SkuList  		= Arrays.asList("2","Gold","Gold");
+	public static List<String> TC22_ReturnProducts 	= Arrays.asList("Gold","Gold");
+	public static String TC22_Configuration 		= "22k";
+	public static String TC22_PurchaseOrExchange	= "NExchange";
+	public static String TC22_OgItemName 			= "OG";
+	public static String TC22_PaymentMode 			= "Convert to Advance";
+	public static String TC22_DepositType 			= "Normal Advance";
+	public static String TC22_TransactionType1   	= "Sales Return";
+	public static String TC22_TransactionType2   	= "Exchange";
+	public static String TC22_TransactionType3 		= "Sales";
+	public static String TC22_PaymentDetails 		= "Adjustment";
+	public static String TC22_PaymentMethod 		= "HDFC (Credit Card)";
+	public static String TC22_ApprCode      		= "12345";
+	public static String TC22_CardNo 				= "12333";
+	public static String TC22_TotalDiamond			= "0";
 }
 

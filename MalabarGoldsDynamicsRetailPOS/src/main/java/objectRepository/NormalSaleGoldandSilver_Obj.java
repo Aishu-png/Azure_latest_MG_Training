@@ -52,7 +52,17 @@ public class NormalSaleGoldandSilver_Obj {
 	public By Ele_ERPInvoice(String invoiceNo) {return By.xpath("//input[@value='"+invoiceNo+"']");}
 	public By Ele_ERPCustName(String value) {return By.xpath("(//input[@value='"+value+"'])[1]");}
 	public By Ele_ERPReceiveAmt(String value) {return By.xpath("//input[@aria-label='"+value+"']");}
-	
+	public By Ele_SalesReturnErp(String SalesTxt,String SalesRate) {return By.xpath("//label[normalize-space(text())='"+SalesTxt+"']/parent::div//following::input[@name='"+SalesRate+"']");}
+	public By Ele_SalesReturnErpDual(String name) {return By.xpath("(//input[@name='"+name+"'])[last()]");}
+	public By Ele_CostPriceErp(String CostPriceTxt,String CostPriceVal) {return By.xpath("//label[normalize-space(.)='"+CostPriceTxt+"']/following-sibling::input[contains(@id,'"+CostPriceVal+"')]");}
+	public By Ele_ErpRtgs(String ariaLabelValue, int index) { return By.xpath("(//input[contains(@aria-label,'" + ariaLabelValue + "')])[" + index + "]");}
+	public By Ele_CheckDelete(String DeleteText ,String Disabled) {return By.xpath("//button[.//span[text()='"+DeleteText+"'] and @disabled='"+Disabled+"']");}
+	public By Ele_CheckDeleteEnable(String DeleteText) {return By.xpath("//button[.//span[text()='"+DeleteText+"']]");}
+	public By Ele_DesigCodeErp(String labelText,String Labelid) {return By.xpath("//label[normalize-space(.)='"+labelText+"']/following-sibling::div[contains(@id,'"+Labelid+"')]");}
+	public By Ele_CheckActive(String ActiveTick) {return By.xpath("//div[@aria-checked='"+ActiveTick+"']");}
+	public By Ele_ErpRtgsWithClass(String ariaLabelValue,String CellClass, int index) { return By.xpath("(//div[contains(@aria-label,'" + ariaLabelValue + "')and @class='"+CellClass+"'])[" + index + "]");}
+	public By Ele_ClickQuantity(String ActiveQuantity, String Index) {return By.xpath("(//div[contains(@aria-label,'"+ActiveQuantity+"')])["+Index+"]");}
+
 	//Btn
 	public By Btn_NewInMetalRate(String fr) {return By.xpath("//span[@for='"+fr+"']");}
 	public By Btn_Transaction(String cls, String txt) {return By.xpath("//div[@class='"+cls+"' and text()='"+txt+"']");}
@@ -74,8 +84,16 @@ public class NormalSaleGoldandSilver_Obj {
 	public By Btn_abc(String abcclass , String arialabel) {return By.xpath("//div[@class='"+abcclass+"']//button[@aria-label='"+arialabel+"']");}
 	public By Btn_return(String btnarialabel) {return By.xpath("//button[@aria-label='"+btnarialabel+"']");}
 	public By Ele_SameAsAbove(String text) {return By.xpath("//input[contains(@data-bind,'"+text+"')]");}
+	public By Btn_MenuBarSelect(String options) {return By.xpath("//button[contains(@aria-label,'"+options+"')]");}
+	public By Btn_Refresh(String refreshlabel,String refreshClass) {return By.xpath("//button[contains(@aria-label,'"+refreshlabel+"') and contains(@class, '"+refreshClass+"')]");}
+	public By Erp_Config(String Warehouseid,String Warehousetext) {return By.xpath("//input[contains(@id,'"+Warehouseid+"') and @aria-labelledby=//label[contains(text(),'"+Warehousetext+"')]/@id]");}
+	public By RecallItemNameVerify(String RecallRole,String ItemName) {return By.xpath("//div[@role='"+RecallRole+"' and text()='"+ItemName+"']");}
+	public By Btn_ErpInputArrowClick(String TransferType,String TransferParent,String InputClass, String ArrowClass) {return By.xpath("//label[normalize-space()='"+TransferType+"']/ancestor::div[contains(@id,'"+TransferParent+"')]//div[@class='"+InputClass+"']//div[contains(@class,'"+ArrowClass+"')]");}
+	public By Btn_ErpArrowClick(String ArrowId,String Arrowlass) {return By.xpath("//div[contains(@id,'"+ArrowId+"')]//div[contains(@class,'"+Arrowlass+"')]");}
+	public By Btn_TransferIdSearch(String TransferIdParent,String TransferIdNumber,String TransferIdClass) {return By.xpath("//div[@class='"+TransferIdParent+"']//div[normalize-space(text())='"+TransferIdNumber+"' and @class='"+TransferIdClass+"']");}
+	public By Btn_ClickSave(String ActionClick, String ClickClassParent,String ClickClassSon) {return By.xpath("//div[@action='"+ActionClick+"']//button[contains(@class,'"+ClickClassParent+"')]//span[@class='"+ClickClassSon+"']");}
+	public By Btn_ClickEnter(String ClickClassParent,String ClickClassSon) {return By.xpath("//div[contains(@class, '"+ClickClassParent+" ')]//div[contains(@class, '"+ClickClassSon+"')]");}
 	
-
 	//sel
 	public By Sel_DepositType(String id) {return By.xpath("//select[@id='"+id+"']");}
 	public By Sel_BankProofType(String text) {return By.xpath("//label[text()='"+text+"']//following-sibling::select");}
@@ -89,7 +107,15 @@ public class NormalSaleGoldandSilver_Obj {
 	public By Txt_TotalProduct() {return By.xpath("//div[@id='LinesField']//div[@data-bind='text: value']");}
 	public By Fld_Product(String quantity) {return By.xpath("//div[@aria-label='QUANTITY "+quantity+"']/ancestor::div[contains(@class,'SelectedLinesFields')]");}
 	public By Txt_Quantity(String index) {return By.xpath("(//div[contains(@class,'listViewLine')]/following-sibling::div//div[contains(@class,'lineItemBarcode')]//div)["+index+"]");}
+	public By Sel_TheMetalRate(String metalSelectClass,String metalBoxRow, String metalSelectRate) {return By.xpath("//div[@class='"+metalSelectClass+"']//div[@class='"+metalBoxRow+"']//child::div[contains(@aria-label,'"+metalSelectRate+"')]");}
+	public By Sel_TheListOfName(String columName ,String clsName) {return By.xpath("//div[contains(@class,'"+columName+"')]//div[contains(@class,'"+clsName+"')]");}	
+	//public By Sel_CustomerWithIDorNo(String CustomerID ,int Index) {return By.xpath("(//div[contains(text(),'"+CustomerID+"')])["+Index+"]");}
+	public By Sel_CustomerWithIDorNo(String customerMain ,String CustomerID) {return By.xpath("//div[@class='"+customerMain+"']//div[contains(text(),'"+CustomerID+"')]");}
+	public By Sel_AvailPhysicalList(String AvailPhysicalId ,String AvailPhysicalInput) {return By.xpath("//input[contains(@id,'"+AvailPhysicalId+"') and contains(@id,'"+AvailPhysicalInput+"')]");}
 	
+	//DOB
+	public By Ele_NomineeDOBYear(String Path) { return By.xpath("//div[@id='NomineeDob']//select[contains(@class,'"+Path+"')]");}
+
 	
 }
 

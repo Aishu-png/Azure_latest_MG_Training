@@ -1,0 +1,90 @@
+package testScenario.MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp;
+
+import utilPack.BaseTest;
+
+import org.testng.annotations.Test;
+import testPage.MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp;
+public class MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp_Test extends BaseTest{
+
+	MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp;
+
+	@Test()
+	public void TC213_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC213_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	@Test()
+	public void TC209_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC209_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	@Test()
+	public void TC214_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC214_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	@Test()
+	public void TC219_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC219_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	@Test()
+	public void TC215_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC215_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	@Test()
+	public void TC217_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC217_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+
+	@Test()
+	public void TC210_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC210_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+
+	@Test()
+	public void TC216_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC216_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+
+	@Test()
+	public void TC223_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC223_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+
+	@Test()
+	public void TC208_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC208_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	
+
+	@Test()
+	public void TC211_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC211_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+	
+	@Test()
+	public void TC212_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest() throws Exception 
+	{	
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp = new MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp(getDriver());
+		makingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.TC212_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp();
+	}
+}

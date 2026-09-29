@@ -1,0 +1,20 @@
+package testScenario.GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser;
+
+import org.testng.annotations.Test;
+
+import testPage.GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser;
+import utilPack.BaseTest;
+
+public class GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser_Test extends BaseTest{
+	
+	GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser generateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser;
+	
+	@Test
+	public void TC293_GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser() throws Exception
+	{
+		generateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser = new GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser(getDriver());
+		generateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser.TC293_GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser();
+		
+	}
+
+}

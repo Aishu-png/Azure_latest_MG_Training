@@ -1,0 +1,296 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="MasterAutomationTestSuite" parallel="false">
+
+  <listeners>
+    <listener class-name="extentReporterpack.ExtentReportListner"/>
+    <listener class-name="utilPack.RetryListener"/>
+  </listeners>
+
+  <test thread-count="1" name="MasterFunctionalTests">
+    <parameter name="Browser" value="Chrome"/>
+    <!-- number of tc': 122 -->
+    <classes>
+
+      <class name="testScenario.NormalSaleGoldandSilver.NormalSaleGoldandSilver_Test">
+        <methods>
+          <include name="TC02_NormalSaleGoldandSilverTest"/>
+          <include name="TC03_NormalSaleGoldandSilverTest"/>
+          <include name="TC05_NormalSaleGoldandSilverTest"/>
+          <include name="TC06_NormalSaleGoldandSilverTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.NormalSaleDiamondandPlatinum.NormalSaleDiamondandPlatinum_Test">
+        <methods>
+          <include name="TC08_NormalSaleDiamondandPlatinumTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.NormalSalesReturnGoldSilverReturnSaleCounter.NormalSalesReturnGoldSilverReturnSaleCounter_Test">
+        <methods>
+          <include name="TC12_NormalSalesReturnGoldSilverReturnSaleCounterTest"/>
+          <include name="TC14_NormalSalesReturnGoldSilverReturnSaleCounterTest"/>
+          <include name="TC18_NormalSalesReturnGoldSilverReturnSaleCounterTest"/>
+          <include name="TC21_NormalSalesReturnGoldSilverReturnSaleCounterTest"/>
+          <include name="TC22_NormalSalesReturnGoldSilverReturnSaleCounterTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.NormalSalesReturnDiamondPlatinumReturnSaleCounter.NormalSalesReturnDiamondPlatinumReturnSaleCounter_Test">
+        <methods>
+          <include name="TC23_NormalSalesReturnDiamondPlatinumReturnSaleCounterTest"/>
+          <include name="TC28_NormalSalesReturnDiamondPlatinumReturnSaleCounterTest"/>       
+        </methods>
+      </class>
+
+      <class name="testScenario.NormalSaleUncutandPrecia.NormalSaleUncutandPrecia_Test">
+        <methods>
+          <include name="TC33_NormalSaleUncutandPreciaTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.NormalSalesReturnUncutorPrecia.NormalSalesReturnUncutorPrecia_Test">
+        <methods>
+          <include name="TC35_NormalSalesReturnUncutorPreciaTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.OldPurchaseExchangeOwnorOtherGoldorSilverSale.OldPurchaseExchangeOwnorOtherGoldorSilverSale_Test">
+        <methods>
+          <include name="TC40_OldPurchaseExchangeOwnorOtherGoldorSilverSaleTest"/>
+          <include name="TC44_OldPurchaseExchangeOwnorOtherGoldorSilverSaleTest"/>
+          <include name="TC46_OldPurchaseExchangeOwnorOtherGoldorSilverSaleTest"/>
+          <include name="TC48_OldPurchaseExchangeOwnorOtherGoldorSilverSaleTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactions.OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactions_Test">
+        <methods>
+          <include name="TC52_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC54_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC55_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC56_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC60_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC62_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+          <include name="TC63_OldExchangeOwnDiamondPlatinumPreciaUncutStoreTransactionsTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable.UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test">
+        <methods>
+          <include name="TC202_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+          <include name="TC203_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+          <include name="TC204_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+          <include name="TC205_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+          <include name="TC206_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+          <include name="TC207_UrdPurchaseGoldPreciaUncutStoreTransactionOldSkuTable_Test"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserve.AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserve_Test">
+        <methods>
+          <include name="TC70_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+          <include name="TC72_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+          <include name="TC74_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+          <include name="TC76_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+          <include name="TC77_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+          <include name="TC78_AdvanceCollectionNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceSkuReserveTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPos.AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPos_Test">
+        <methods>
+          <include name="TC82_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC84_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC85_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC86_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC89_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC90_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC92_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC95_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+          <include name="TC97_AdvanceSettlementNormalAdvanceOfferAdvanceConvertToAdvanceAddOnAdvanceLegacyPosTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.AdvanceRepayment.AdvanceRepayment_Test">
+        <methods>
+          <include name="TC182_AdvanceRepaymentTest"/>
+          <include name="TC184_AdvanceRepaymentTest"/>
+          <include name="TC185_AdvanceRepaymentTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.GppOpeningAndCollectionMultiplePlans.GppOpeningAndCollectionMultiplePlans_Test">
+        <methods>
+          <include name="TC100_GppOpeningAndCollectionMultiplePlansTest"/>
+          <include name="TC102_GppOpeningAndCollectionMultiplePlansTest"/>
+          <include name="TC103_GppOpeningAndCollectionMultiplePlansTest"/>
+          <include name="TC104_GppOpeningAndCollectionMultiplePlansTest"/>
+          <include name="TC107_GppOpeningAndCollectionMultiplePlansTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.GPPSettlementAverageRateSingleSkuMultipleSku.GPPSettlementAverageRateSingleSkuMultipleSku_Test">
+        <methods>
+          <include name="TC116_GPPSettlementAverageRateSingleSkuMultipleSkuTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.PANCardLimitValidation.PANCardLimitValidation_Test">
+        <methods>
+          <include name="TC164_PANCardLimitValidationTest"/>
+          <include name="TC165_PANCardLimitValidationTest"/>
+          <include name="TC166_PANCardLimitValidationTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.CashCollectionRepaymentLimitValidation.CashCollectionRepaymentLimitValidation_Test">
+        <methods>
+          <include name="TC170_CashCollectionRepaymentLimitValidationTest"/>
+          <include name="TC321_CashCollectionRepaymentLimitValidationTest"/>
+          <include name="TC322_CashCollectionRepaymentLimitValidationTest"/>
+          <include name="TC324_CashCollectionRepaymentLimitValidationTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.BelowCostSaleValidation.BelowCostSaleValidation_Test">
+        <methods>
+          <include name="TC188_BelowCostSaleValidationTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.InvoiceAdvanceWithPaymentMethodRtgsReceived.InvoiceAdvanceWithPaymentMethodRtgsReceived_Test">
+        <methods>
+          <include name="TC249_InvoiceAdvanceWithPaymentMethodRtgsReceivedTest"/>
+          <include name="TC250_InvoiceAdvanceWithPaymentMethodRtgsReceivedTest"/>
+          <include name="TC251_InvoiceAdvanceWithPaymentMethodRtgsReceivedTest"/>
+          <include name="TC253_InvoiceAdvanceWithPaymentMethodRtgsReceivedTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived.InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived_Test">
+        <methods>
+          <include name="TC161_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceivedTest"/>
+          <include name="TC162_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceivedTest"/>
+        </methods>
+      </class>
+
+
+      <class name="testScenario.InvoiceWithSRandOG.InvoiceWithSRandOG_Test">
+        <methods>
+          <include name="TC291_InvoiceWithSRandOG"/>
+          <include name="TC292_InvoiceWithSRandOG"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.InvoiceWithDifferentTypeAdvances.InvoiceWithDifferentTypeAdvances_Test">
+        <methods>
+          <include name="TC193_InvoiceWithDifferentTypeAdvancesTest"/>
+          <include name="TC194_InvoiceWithDifferentTypeAdvancesTest"/>
+          <include name="TC195_InvoiceWithDifferentTypeAdvancesTest"/>
+          <include name="TC196_InvoiceWithDifferentTypeAdvancesTest"/>
+          <include name="TC197_InvoiceWithDifferentTypeAdvancesTest"/>
+          <include name="TC198_InvoiceWithDifferentTypeAdvancesTest"/>
+        </methods>
+      </class>
+
+            <class name="testScenario.SaleInvoiceWithAdvanceOG.SaleInvoiceWithAdvanceOG_Test">
+        <methods>
+          <include name="TC157_SaleInvoiceWithAdvanceOGTest"/>
+          <include name="TC158_SaleInvoiceWithAdvanceOGTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.RtgsPaymentToCustomer.RtgsPaymentToCustomer_Test">
+        <methods>
+          <include name="TC173_RtgsPaymentToCustomerTest"/>
+          <include name="TC174_RtgsPaymentToCustomerTest"/>
+          <include name="TC175_RtgsPaymentToCustomerTest"/>
+          <include name="TC180_RtgsPaymentToCustomerTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.CreditBill.CreditBill_Test">
+        <methods>
+          <include name="TC181_CreditBillTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscount.ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscount_Test">
+        <methods>
+          <include name="TC273_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC274_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC276_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC275_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC278_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC283_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC312_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC313_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC314_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+          <include name="TC315_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>          
+          <include name="TC316_ApplyGiftCoinDiscountPromotionDiscountSilverCoinDiscountTest"/>
+
+        </methods>
+      </class>
+
+      <class name="testScenario.MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp.MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtp_Test">
+        <methods>
+          <include name="TC208_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>
+          <include name="TC212_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>          
+          <include name="TC214_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>
+          <include name="TC215_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>
+          <include name="TC216_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>
+          <include name="TC219_MakingDiscountDiamondDiscountStoneDiscountHigherDiscountThroughOtpTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.BulkItemSalesSalesReturnServiceItemSalesStockSummary.BulkItemSalesSalesReturnServiceItemSalesStockSummary_Test">
+        <methods>
+          <include name="TC151_BulkItemSalesSalesReturnServiceItemSalesStockSummaryTest"/>
+          <include name="TC153_BulkItemSalesSalesReturnServiceItemSalesStockSummaryTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOffice.StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOffice_Test">
+        <methods>
+          <include name="TC224_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>
+          <include name="TC225_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>
+          <include name="TC226_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>         
+          <include name="TC229_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>
+          <include name="TC230_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>
+          <include name="TC231_StockReceiptCounterInBulkSkuStockTransferCounterOutBulkSkuProccessTransferOrderFromBackOfficeTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.OldItemStockOutAndShipment.OldItemStockOutAndShipment_Test">
+        <methods>
+          <include name="TC235_OldItemStockOutAndShipment_Test"/>
+          <include name="TC236_OldItemStockOutAndShipment_Test"/>
+          <include name="TC237_OldItemStockOutAndShipment_Test"/>
+          <include name="TC238_OldItemStockOutAndShipment_Test"/>
+          <include name="TC239_OldItemStockOutAndShipment_Test"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.PdcEntryExecution.PdcEntryExecution_Test">
+        <methods>
+          <include name="TC241_PdcEntryExecutionTest"/>
+          <include name="TC242_PdcEntryExecutionTest"/>
+          <include name="TC243_PdcEntryExecutionTest"/>
+          <include name="TC244_PdcEntryExecutionTest"/>
+          <include name="TC245_PdcEntryExecutionTest"/>
+          <include name="TC247_PdcEntryExecutionTest"/>
+          <include name="TC248_PdcEntryExecutionTest"/>
+        </methods>
+      </class>
+
+      <class name="testScenario.GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser.GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser_Test">
+        <methods>
+          <include name="TC293_GenerateEstimateFromOneUserRoleAndPostTheBillFromAnotherUser"/>
+        </methods>
+      </class>
+
+    </classes>
+    
+  </test>
+</suite>

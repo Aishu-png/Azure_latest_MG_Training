@@ -1,0 +1,28 @@
+package testScenario.InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived;
+import org.testng.annotations.Test;
+import testPage.InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived;
+import utilPack.BaseTest;
+
+public class InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived_Test extends BaseTest{
+	InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived;
+	@Test
+	public void TC160_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceivedTest() throws Exception {
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived = new InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived(getDriver());
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived.TC160_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived();
+	}
+	
+	@Test()
+	public void TC161_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceivedTest() throws Exception 
+	{	
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived = new InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived(getDriver());
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived.TC161_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived();
+	}
+	
+	@Test()
+	public void TC162_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceivedTest() throws Exception 
+	{	
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived = new InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived(getDriver());
+		invoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived.TC162_InvoiceWithAllPaymentMethodsCashCardB2bAdjustmentRtgsReceived();
+	}
+
+}

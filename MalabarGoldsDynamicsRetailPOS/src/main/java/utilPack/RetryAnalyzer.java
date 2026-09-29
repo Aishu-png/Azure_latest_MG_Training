@@ -12,10 +12,10 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     public boolean retry(ITestResult result) {
         if (retryCount < maxRetryCount) {
             retryCount++;
-            System.out.println("🔄 RETRYING TEST: " + result.getName() + " | Attempt " + retryCount);
+            System.out.println("ðŸ”„â€�â€ž RETRYING TEST: " + result.getName() + " | Attempt " + retryCount);
             return true; 
         }
-        System.out.println("❌ TEST FAILED AFTER " + maxRetryCount + " ATTEMPTS: " + result.getName());
+        System.out.println("â�Œ TEST FAILED AFTER " + maxRetryCount + " ATTEMPTS: " + result.getName());
         return false;
     }
 }

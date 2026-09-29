@@ -16,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import objectRepository.CustomerCreation_Obj;
 import objectRepository.LoginPage_Obj;
 import objectRepository.NormalSaleGoldandSilver_Obj;
 import testData.CommonData;
@@ -30,12 +31,15 @@ public class POC extends BasePge {
 	Assert asrt;
 	AppUtilities appUtils;
 	PdfUtilities PdfUtils;
+	
+	CustomerCreation_Obj CustomerCreationObj=new CustomerCreation_Obj();
 	public POC(WebDriver driver) {
 		super(driver);
 		base = new BasePge(driver);
 		appUtils = new AppUtilities(base); 
 		PdfUtils=new PdfUtilities(base);
 	}
+	
 
 
 	// <summary>
@@ -132,8 +136,7 @@ public class POC extends BasePge {
 		base.setZoom(driver, 70);
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: Select customer
@@ -159,8 +162,7 @@ public class POC extends BasePge {
 
 		// Step 5: Navigate to the Transaction
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY", "Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "User is not navigated to Transaction page");
 
 		// Step 6: Add SKUs to cart
@@ -285,7 +287,7 @@ public class POC extends BasePge {
 	// Step 15:  Select a Payment method(Cash or Card)
 	// Expected Result: User should able to select the Payement Method 
 	base.buttonClick(LoginPageObj.Edt_AlertText("HDFC (Card)"));
-	String PaymentAmountHDFC=base.GetAttribte(normalsalegoldandsilverObj.Edt_ApprCode("numpad-control-input primaryFontColor numpad-control-input-readonly"),"value");
+	String PaymentAmountHDFC=base.GetAttribte(CustomerCreationObj.Ele_ERPCustid("Payment amount"),"value");
 	base.buttonClick(normalsalegoldandsilverObj.Btn_CartMoney("flexGrow50 flexRow row-enter","h1 marginBottom0 iconReturnKey button-content-return"));
 	base.setData(normalsalegoldandsilverObj.Edt_ApprCode("textInputArea"),"12345");
 	base.buttonClick(normalsalegoldandsilverObj.Btn_Deposit("OK"));
@@ -378,8 +380,7 @@ public class POC extends BasePge {
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
 
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: User should able to Search the Customers using Mobile Number
@@ -402,8 +403,7 @@ public class POC extends BasePge {
 		// Step 5: User should able get the recent receipt no: and go to the transaction page
 		// Expected Result: User should be fetch the recent receipt no: and should be navigate to the transaction page
 		String receiptnumber = base.GetText(normalsalegoldandsilverObj.Ele_SKUNumber("column1", "h4 ellipsis cell", "1" ));
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 6: User should able to Search the Customers using Mobile Number
@@ -496,8 +496,7 @@ public class POC extends BasePge {
 
 		// Step 14: Navigate to the Transaction
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 15: Scan multiple SKU and click on Add to cart button
@@ -883,8 +882,7 @@ public class POC extends BasePge {
 		base.setZoom(driver, 70);
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: Select customer
@@ -1121,8 +1119,7 @@ public class POC extends BasePge {
 
 		// Step 5: Navigate to the Transaction
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 6: Scan multiple SKU and click on Add to cart button
@@ -1283,8 +1280,7 @@ public class POC extends BasePge {
 
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: User should able to Search the Customers using Mobile Number
@@ -1360,8 +1356,7 @@ public class POC extends BasePge {
 
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: Go to GPP
@@ -1426,8 +1421,7 @@ public class POC extends BasePge {
 
 		// Step 1: Navigate to the Transaction page
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 2: User should able to Search the Customers using Mobile Number
@@ -1481,8 +1475,7 @@ public class POC extends BasePge {
 
 		// Step 7: Navigate to the Transaction
 		// Expected Result: User should be navigated to the Transaction page
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Estimation("headerSplitViewToggleButton expandedNavButton iconGlobalNavButton win-splitviewpanetoggle win-disposable"));	
-		base.buttonClick(normalsalegoldandsilverObj.Btn_Transaction("h5 textLeft centerY","Transaction"));
+		appUtils.HamBurgerButtonClick("iconShop");
 		asrt.assertTrue(base.isExists(normalsalegoldandsilverObj.Ele_Transaction("Transaction")), "The user is not able to navigated to Transaction page");
 
 		// Step 8: Scan multiple SKU and click on Add to cart button

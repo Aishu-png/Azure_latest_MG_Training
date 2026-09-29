@@ -1,0 +1,41 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="AutomationTestSuite" parallel="false">
+  
+  <!-- Extent Report Listener -->
+  <listeners>
+    <listener class-name="extentReporterpack.ExtentReportListner"/>
+    <listener class-name="utilPack.RetryListener"/>    
+  </listeners>
+
+  <!-- Test configuration -->
+  <test thread-count="1" name="FunctionalTests">
+    
+    <!-- Parameter for browser -->
+    <parameter name="Browser" value="Chrome"/>
+
+    <!-- Test classes -->
+   
+     <classes>
+    
+     <class name="testScenario.ProductUtilities.ProductUtilities_Test">
+     <methods>
+     <include name="GoldPcsRateItem"/>
+     <include name="DiamondPcsRateItem"/>
+     <include name="SilverPcsRateItem"/>
+     <include name="PlatinumPcsRateItem"/>
+     <include name="PlatinumItem"/>   
+     <include name="UncutSkuCount"/>
+     <include name="PreciaSkuCount"/>      
+     <include name="VirazSkuCount"/> 
+     <include name="TotalKeralSkuCount"/> 
+     <include name="SilverArticlesSkuCount"/>
+     <include name="GoldCoinCount"/>
+
+     </methods>
+     </class>  
+   
+    </classes>
+
+    
+  </test>
+</suite>

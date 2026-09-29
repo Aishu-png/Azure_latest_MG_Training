@@ -3,19 +3,19 @@
 <suite name="Failed suite [AutomationTestSuite]" guice-stage="DEVELOPMENT">
   <listeners>
     <listener class-name="extentReporterpack.ExtentReportListner"/>
+    <listener class-name="utilPack.RetryListener"/>
   </listeners>
   <test thread-count="5" name="FunctionalTests(failed)">
     <parameter name="Browser" value="Chrome"/>
     <classes>
-      <class name="testScenario.POC.POC_Test">
+      <class name="testScenario.CashCollectionRepaymentLimitValidation.CashCollectionRepaymentLimitValidation_Test">
         <methods>
-          <include name="clearScreenshotsDirectory"/>
-          <include name="TC02_POCTest"/>
-          <include name="TC01_POCTest"/>
-          <include name="closeDriver"/>
-          <include name="initializeDriver"/>
+          <include name="TC321_CashCollectionRepaymentLimitValidationTest"/>
+          <include name="ClearScreenshotsDirectory"/>
+          <include name="InitializeDriver"/>
+          <include name="CloseDriver"/>
         </methods>
-      </class> <!-- testScenario.POC.POC_Test -->
+      </class> <!-- testScenario.CashCollectionRepaymentLimitValidation.CashCollectionRepaymentLimitValidation_Test -->
     </classes>
   </test> <!-- FunctionalTests(failed) -->
 </suite> <!-- Failed suite [AutomationTestSuite] -->

@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -19,6 +21,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -50,7 +53,8 @@ public class BasePge {
 
 	public void buttonClick(By locator) {
 		setZoom(driver, 60);
-		WebDriverWait wait = getWait();
+		//WebDriverWait wait = getWait();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 		WebElement webElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
 		//		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		//		webElement =driver.findElement(locator);
@@ -189,7 +193,7 @@ public class BasePge {
 		// Create and configure FluentWait
 		FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
 				.withTimeout(Duration.ofSeconds(120)) // Maximum wait time
-				.pollingEvery(Duration.ofSeconds(10)) // Polling interval
+				.pollingEvery(Duration.ofSeconds(5)) // Polling interval
 				.ignoring(NoSuchElementException.class); // Ignore NoSuchElementException
 
 		// Use FluentWait to wait for an arbitrary condition (Example: Page load or generic element presence)
@@ -199,7 +203,8 @@ public class BasePge {
 		});
 
 		// Returning WebDriverWait for compatibility with existing code
-		return new WebDriverWait(driver, Duration.ofSeconds(60));
+		//return new WebDriverWait(driver, Duration.ofSeconds(60));
+		return new WebDriverWait(driver, Duration.ofSeconds(20));
 	}
 
 	/// <summary>
@@ -219,16 +224,121 @@ public class BasePge {
 	/// Select values in the dropdown
 	/// </summary>
 
-	public void selectorByVisibleText(By locator,String text) {     //drpdown
-		setZoom(driver, 60);
+	//	public void selectorByVisibleText(By locator,String text) {     //drpdown
+	//		setZoom(driver, 60);
+	//		WebDriverWait wait = getWait();
+	//		WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	//		//webElement = driver.findElement(locator);
+	//		highLighterMethod(driver, webElement); 
+	//		select = new Select(webElement);
+	//		select.selectByVisibleText(text);
+	//
+	//	}
+	public void selectorByVisibleText(By locator, String text) {
 		WebDriverWait wait = getWait();
-		WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-		//webElement = driver.findElement(locator);
-		highLighterMethod(driver, webElement); 
-		select = new Select(webElement);
+
+		// Wait until it's visible and enabled
+		WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(locator));
+
+		highLighterMethod(driver, dropdown);
+
+		Select select = new Select(dropdown);
 		select.selectByVisibleText(text);
 
+		// Wait until the selection is applied
+		wait.until(ExpectedConditions.textToBePresentInElement(
+				select.getFirstSelectedOption(), text));
+
+		// Debug: print what was selected
+		//System.out.println("Selected: " + select.getFirstSelectedOption().getText());
 	}
+//	public void selectorByVisibleText(By locator, String text) {
+//
+//	    WebDriverWait wait = getWait();
+//	    WebElement dropdown =wait.until(ExpectedConditions.elementToBeClickable(locator));
+//	    highLighterMethod(driver, dropdown);
+//	    Select select = new Select(dropdown);
+//	    String normalizedInput =text.replace(".", "").replace(" ", "").trim().toLowerCase();
+//	    boolean isSelected = false;
+//	    // PASS 1: EXACT MATCH ONLY
+//	    for (WebElement option : select.getOptions()) {
+//	        String optionText = option.getText();
+//	        String normalizedOption =optionText.replace(".", "") .replace(" ", "").trim().toLowerCase();
+//	        if (normalizedOption.equals(normalizedInput)) {
+//	            option.click();
+//	            wait.until(ExpectedConditions.textToBePresentInElement(select.getFirstSelectedOption(), optionText));
+//	            isSelected = true;
+//	            return; //
+//	        }
+//	    }
+//	    // PASS 2: SAFE FALLBACK (word match, NOT partial)
+//	    for (WebElement option : select.getOptions()) {
+//	        String optionText = option.getText();
+//	        String normalizedOption =optionText.replace(".", "").replace(" ", "") .trim().toLowerCase();
+//	        // Example: "sales-return" vs "salesreturn"
+//	        if (normalizedOption.startsWith(normalizedInput)&& !normalizedOption.contains(normalizedInput + "return")) {
+//	            option.click();
+//	            wait.until(ExpectedConditions.textToBePresentInElement( select.getFirstSelectedOption(), optionText));
+//	            isSelected = true;
+//	            return;
+//	        }
+//	    }
+//	    throw new RuntimeException("Dropdown option not found for text: " + text);
+//	}
+
+	/*//Method with retry
+	 public void selectorByVisibleText(By locator, String text) {
+
+	    WebDriverWait wait = getWait();
+	    String normalizedInput = text.replace(".", "").trim().toLowerCase();
+	    int maxRetry = 3;
+
+	    for (int attempt = 1; attempt <= maxRetry; attempt++) {
+	        try {
+	            // Re-locate dropdown every retry
+	            WebElement dropdown = wait.until(
+	                    ExpectedConditions.elementToBeClickable(locator));
+
+	            highLighterMethod(driver, dropdown);
+	            Select select = new Select(dropdown);
+
+	            boolean isSelected = false;
+
+	            for (WebElement opt : select.getOptions()) {
+	                String optionText = opt.getText();
+	                String normalizedOption = optionText.replace(".", "").trim().toLowerCase();
+
+	                if (normalizedOption.equals(normalizedInput)) {
+	                    opt.click();
+
+	                    // wait till selection is applied
+	                    wait.until(d ->
+	                            select.getFirstSelectedOption()
+	                                  .getText()
+	                                  .replace(".", "")
+	                                  .trim()
+	                                  .equalsIgnoreCase(normalizedInput));
+
+	                    isSelected = true;
+	                    break;
+	                }
+	            }
+
+	            if (!isSelected) {
+	                throw new RuntimeException(
+	                        "Dropdown option not found for text: " + text);
+	            }
+
+	            return; // success
+
+	        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+	            if (attempt == maxRetry) {
+	                throw e;
+	            }
+	            System.out.println("Stale element detected, retrying... Attempt " + attempt);
+	        }
+	    }
+	}*/
 
 	/// <summary>
 	/// Select values in the dropdown based on Index
@@ -691,6 +801,9 @@ public class BasePge {
 		case "KEYBOARD_S":
 			actions.sendKeys("S").perform();
 			break;
+		case "BACKSPACE":
+			actions.sendKeys(Keys.BACK_SPACE).perform();
+			break;
 		default:
 			System.out.println("Invalid key action: " + key);
 			break;
@@ -1084,25 +1197,25 @@ public class BasePge {
 	/// To fetch random numbers not starting from zero
 	/// </summary>
 	public static String CreateRandomNumberWithoutLeadingZero(int n) {
-	    if (n <= 0) {
-	        throw new IllegalArgumentException("Length must be positive");
-	    }
+		if (n <= 0) {
+			throw new IllegalArgumentException("Length must be positive");
+		}
 
-	    StringBuilder sb = new StringBuilder(n);
-	    String nonZeroDigits = "123456789";
-	    String allDigits = "0123456789";
+		StringBuilder sb = new StringBuilder(n);
+		String nonZeroDigits = "123456789";
+		String allDigits = "0123456789";
 
-	    // Ensure the first digit is not zero
-	    sb.append(nonZeroDigits.charAt((int)(Math.random() * nonZeroDigits.length())));
+		// Ensure the first digit is not zero
+		sb.append(nonZeroDigits.charAt((int)(Math.random() * nonZeroDigits.length())));
 
-	    for (int i = 1; i < n; i++) {
-	        sb.append(allDigits.charAt((int)(Math.random() * allDigits.length())));
-	    }
+		for (int i = 1; i < n; i++) {
+			sb.append(allDigits.charAt((int)(Math.random() * allDigits.length())));
+		}
 
-	    return sb.toString();
+		return sb.toString();
 	}
 
-	
+
 	///<summary>
 	///To click on an element using Action class
 	///</summary>
@@ -1112,12 +1225,424 @@ public class BasePge {
 		WebElement webElement = driver.findElement(locator);
 		action.moveToElement(webElement).click().build().perform();
 	}
-  
-  public String getSelectedDropdownValue(By dropdownLocator) {
-	        WebElement dropdownElement = driver.findElement(dropdownLocator);
-	        Select select = new Select(dropdownElement);
-	        return select.getFirstSelectedOption().getText();
-  }
+
+	public String getSelectedDropdownValue(By dropdownLocator) {
+		WebElement dropdownElement = driver.findElement(dropdownLocator);
+		Select select = new Select(dropdownElement);
+		return select.getFirstSelectedOption().getText();
+	}
+	/// <summary>
+	/// Clicks an input field, clears existing data, and enters the given value.
+	/// </summary>
+	public void ClickClearEnter(By locator, String value) {
+		setZoom(driver, 60);
+		WebDriverWait wait = getWait();
+
+		WebElement webElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
+		highLighterMethod(driver, webElement);
+
+		webElement.click();
+		webElement.clear();
+		webElement.sendKeys(value);
+	}	
+
+	public void actionSetData(By locator,String Text) {
+
+		setZoom(driver, 60);
+		WebDriverWait wait = getWait();
+		WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		Actions act = new Actions(driver);
+		act.moveToElement(webElement)
+		.click()
+		.sendKeys(Text)
+		.build()
+		.perform();
+	}
+
+	///<Summary>
+	///Method to try to perform any one of the click
+	///@Author: Gokul.P
+	///</Summary>
+	public void ClickCondition(By locator)
+	{
+		try 
+		{
+			this.buttonClick(locator);
+		} catch (Exception e) 
+		{
+			this.excuteJsClick(locator);
+		}
+	}
+	
+	///<Summary>
+		///Method to try to perform any one of the click
+		///@Author: Gokul.P
+		///</Summary>
+	public void UnifiedClick(By locator) {
+		
+		setZoom(driver, 60);
+		WebDriverWait Wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+		Wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+		WebElement webElement = driver.findElement(locator);
+		highLighterMethod(driver, webElement);
+		try {
+			webElement.click();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Element Click failed trying Action Click");
+			try {
+			actionClick(locator);
+			}
+			catch(Exception e1)
+			{
+				System.out.println("Action Click failed trying Java Script Click");
+				js = (JavascriptExecutor)driver;
+				highLighterMethod(driver, webElement); 
+				js.executeScript("arguments[0].click();", webElement);
+			}
+			
+		}
+	}
+	///<Summary>
+		///Method to try to perform any one of the click
+		///@Author: Bharath
+		///</Summary>
+		public void UnifiedClickUpdated(By locator) {
+
+			setZoom(driver, 60);
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+
+			try {
+				WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+				highLighterMethod(driver, element);
+				element.click();
+				return;
+			} catch (Exception e) {
+				System.out.println("Normal click failed, trying Actions click");
+			}
+
+			try {
+				WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+				highLighterMethod(driver, element);
+				new Actions(driver)
+				.moveToElement(element)
+				.click()
+				.perform();
+				return;
+			} catch (Exception e) {
+				System.out.println("Actions click failed, trying JS click");
+			}
+
+			WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView(true);", element);
+			js.executeScript("arguments[0].click();", element);
+		}
+
+
+	/// <summary>
+	/// Select values in the dropdown
+	/// </summary>
+	public void selectorByValue(By locator, String value) {
+		setZoom(driver, 60);  // Optional zoom logic
+		WebDriverWait wait = getWait();
+		WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		highLighterMethod(driver, webElement);  // Optional highlight logic
+		Select select = new Select(webElement);
+		select.selectByValue(value);
+	}
+
+
+	///<Summary>
+	///Method to verify whether the option not present in the list
+	///@Author: Christy Reji
+	///</Summary>
+	public void VerifyOptionNotPresent(By locator, String optionText) {
+		setZoom(driver, 60);
+		WebDriverWait wait      = getWait();
+		WebElement webElement   = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		highLighterMethod(driver, webElement);
+
+		Select select            = new Select(webElement);
+		List<WebElement> options = select.getOptions();
+
+		boolean isPresent        = false;
+		for (WebElement option : options) {
+			if (option.getText().trim().equalsIgnoreCase(optionText.trim())) {
+				isPresent = true;
+				break;
+			}
+		}
+
+		if (isPresent) {
+			throw new AssertionError("Option '" + optionText + "' is present in the dropdown, but it should not be.");
+		} else {
+			System.out.println("Verified: Option '" + optionText + "' is not present in the dropdown.");
+		}
+	}
+	/// <summary>
+	/// To makethe element visibe to view using Horizontal Scroll
+	/// </summary>
+	public void ScrollIntoView(By locator) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+			// Scroll into view
+			WebElement elementToScroll = driver.findElement(locator);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", elementToScroll);
+
+			// Ensure element is visible & clickable before control returns
+			wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+			wait.until(ExpectedConditions.elementToBeClickable(locator));
+
+			System.out.println(" Successfully scrolled into view: " + locator.toString());
+
+		} catch (Exception e) {
+			System.out.println(" Failed to scroll into view: " + locator.toString());
+			e.printStackTrace();
+		}
+	}
+	/// <summary>
+	/// Reusable Method for Scrolldown
+	/// </summary>
+	public void ScrollToElementLocatorPresence(By locator) {
+		setZoom(driver, 60);
+		js= (JavascriptExecutor) driver;
+		WebDriverWait wait = getWait();
+		WebElement webElement = 	wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+		//webElement =driver.findElement(locator);
+		highLighterMethod(driver, webElement); 
+		js.executeScript("arguments[0].scrollIntoView(true);", webElement );
+	}
+
+	/// <summary>
+	/// Checks if an element exists and is visible.
+	/// </summary>
+	public boolean isPresent(By locator) {
+		setZoom(driver, 60);
+		WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(20));
+
+		try {
+			// Wait until the element is visible and retrieve it
+			WebElement webElement = wait1.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+			// Check if the element is displayed
+			return webElement.isDisplayed();
+		} catch (Exception e) {
+			// Print exception details for debugging
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/// <summary>
+		/// Checks if an element exists and is visible.
+		/// </summary>
+		public boolean WaitforElementToBePresentWithTimeout(By locator,int Seconds) {
+			WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(Seconds));
+
+			try {
+				// Wait until the element is visible and retrieve it
+				WebElement webElement = wait1.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+				// Check if the element is displayed
+				return webElement.isDisplayed();
+			} catch (Exception e) {
+				// Print exception details for debugging
+				e.printStackTrace();
+				return false;
+			}
+		}
+	/// <summary>
+	/// Checks if an element exists and is visible.
+	/// </summary>
+	public boolean WaitForElementToBePresentWithTimeouts(By locator, int seconds) {
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+
+	    try {
+	        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	        return true;
+	    } catch (TimeoutException e) {
+	        return false;
+	    }
+	}
+		/// <summary>
+				/// Checks if an element exists and is visible.
+				/// </summary>
+				public boolean WaitforElementToBeInteractable(By locator,int Seconds) {
+					setZoom(driver, 60);
+					WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(Seconds));
+
+					try {
+						// Wait until the element is visible and retrieve it
+						WebElement webElement = wait1.until(ExpectedConditions.elementToBeClickable(locator));
+
+						// Check if the element is displayed
+						return webElement.isDisplayed();
+					} catch (Exception e) {
+						// Print exception details for debugging
+						e.printStackTrace();
+						return false;
+					}
+				}
+	
 	
 
+
+
+	/// <summary>
+	/// To make the element visibe to view using Scroll for WebElement
+	/// </summary>
+	public void ScrollToWebElement(WebElement element) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+			// Scroll into view
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+
+			// Ensure element is visible & clickable before control returns
+			wait.until(ExpectedConditions.visibilityOf(element));
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+
+			System.out.println(" Successfully scrolled into view: " + element.toString());
+
+		} catch (Exception e) {
+			System.out.println(" Failed to scroll into view: " + element.toString());
+			e.printStackTrace();
+		}
+	}
+	/// <summary>
+	/// Method to generate unique phone number
+	/// </summary>
+	public static String GetUniquePhoneNumber() {
+		String TimePart = String.valueOf(System.currentTimeMillis()).substring(4, 13);
+		int Rand = (int)(Math.random() * 10);
+		return "9" + TimePart.substring(0, 8) + Rand; // still 10 digits total
+	}
+
+	/// <summary>
+	/// Waits until the specified element becomes visible on the page.
+	/// </summary>
+	public void waitForVisible(By locator) {
+		new WebDriverWait(driver, Duration.ofSeconds(15))
+		.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
+
+	/// <summary>
+	/// Waits until the specified element becomes clickable before interacting.
+	/// </summary>
+	public void waitForClickable(By locator,int time) {
+		new WebDriverWait(driver, Duration.ofSeconds(time))
+		.until(ExpectedConditions.elementToBeClickable(locator));
+	}
+
+	/// <summary>
+		/// Horizontal Scroll
+		/// </summary>
+	public void dragScrollToFindElement(WebDriver driver, By scrollbarThumbBy, By targetBy, int moveStep) throws InterruptedException {
+
+	    WebElement thumb = driver.findElement(scrollbarThumbBy);
+	    Actions act = new Actions(driver);
+
+	    int maxMoves = 1000; // safety stop
+	  //  int moveStep = 80; // horizontal scroll amount per drag
+
+	    for (int i = 0; i < maxMoves; i++) {
+
+	        // Check if element is visible
+	        try {
+	            WebElement target = driver.findElement(targetBy);
+	            if (target.isDisplayed()) {
+	                return; // Found it
+	            }
+	        } catch (Exception e) {
+	            // Not visible yet, continue
+	        }
+
+	        // Perform drag
+	        act.clickAndHold(thumb)
+	           .moveByOffset(moveStep, 0)
+	           .release()
+	           .perform();
+
+	        Thread.sleep(300);
+	    }
+
+	    throw new NoSuchElementException("Element not found after scrolling.");
+	}
+	
+	//For Multiple Click on the same element
+	public void ClickWithRetry(By LocatortoClick,By LocatortoCheck,int timeout) throws InterruptedException
+	{
+		for(int i=0;i<5;i++)
+		{
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+			this.UnifiedClick(LocatortoClick);
+			Thread.sleep(3000);
+			if(!this.WaitforElementToBePresentWithTimeout(LocatortoCheck, timeout))
+			{
+				continue;
+			}else { break;}
+		}	
+	}
+	
+	//For Multiple Click on the same element
+		public void ClickWithRetryUntilElementisClickable(By LocatortoClick,By LocatortoCheck,int timeout) throws InterruptedException
+		{
+	
+			for(int i=0;i<5;i++)
+			{
+				this.UnifiedClick(LocatortoClick);
+				Thread.sleep(2000);
+				if(!this.WaitforElementToBeInteractable(LocatortoCheck, timeout))
+				{
+					continue;
+				}
+				else { break;}
+			}	
+		}
+
+	
+
+	
+	/// <summary>
+	/// Scrolls the page until the given WebElement comes into view.
+	//  Uses JavaScript scroll as the primary method, and falls back to 
+	//  mouse scroll using Actions if JavaScript scrolling fails.
+	/// </summary>
+	public void ScrollToWebElements(WebElement element) {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView(true);", element);
+			Thread.sleep(800);
+		} catch (Exception e) {
+			try {
+				Actions actions = new Actions(driver);
+				actions.scrollByAmount(0, 500).perform();
+			} catch (Exception ex) {
+				System.out.println("Scrolling failed: " + ex.getMessage());
+			}
+		}
+	}
+
+	public void setDataWithoutClearJs(By locator, String text) {
+
+	    setZoom(driver, 60);
+	    WebDriverWait wait = getWait();
+	    WebElement webElement = wait.until(
+	            ExpectedConditions.visibilityOfElementLocated(locator));
+
+	    highLighterMethod(driver, webElement);
+
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	    // 🔥 Force set exact value
+	    js.executeScript(
+	        "arguments[0].value = arguments[1];" +
+	        "arguments[0].dispatchEvent(new Event('input'));" +
+	        "arguments[0].dispatchEvent(new Event('change'));",
+	        webElement, text
+	    );
+	}
 }

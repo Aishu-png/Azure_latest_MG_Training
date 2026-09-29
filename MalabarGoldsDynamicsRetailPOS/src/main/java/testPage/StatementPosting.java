@@ -74,10 +74,11 @@ public class StatementPosting extends BasePge {
 		String InvoiceNo = appUtils.GetInvoiceNoAfterNormalSale(StatementPostingTestData.TC310_CustomerNo, StatementPostingTestData.TC310_Products);
 		base.newWindow(1);
 		driver.get(UtilityTestData.ERPURL);
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));		
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));		
 		base.setData(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), StatementPostingTestData.TC310_StoreTransaction);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
 		base.pressKey(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), "ENTER");
+		Thread.sleep(5000);
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(LoginPageObj.Ele_ErrorMessage("reactGrid fill-width fill-height")));
@@ -107,8 +108,9 @@ public class StatementPosting extends BasePge {
 			attempt++;
 			System.out.println("Attempt: " + attempt);
 
-			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
+			//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
 			WebElement SearchBox = driver.findElement(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"));
+			SearchBox.clear();
 			SearchBox.sendKeys("Validate store transaction");
 			SearchBox.sendKeys(Keys.ARROW_RIGHT);
 			Thread.sleep(1000);
@@ -120,23 +122,45 @@ public class StatementPosting extends BasePge {
 			base.buttonClick(LoginPageObj.Edt_Alert("OK"));
 			Thread.sleep(20000);
 
-			base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
+			SearchBox.clear();
+			//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
 			SearchBox.sendKeys("Store transaction");
-			Thread.sleep(1000);
-			SearchBox.sendKeys(Keys.ARROW_RIGHT);
 			Thread.sleep(2000);
+			SearchBox.sendKeys(Keys.ARROW_RIGHT);
+			Thread.sleep(3000);
 			SearchBox.sendKeys("s");
 			SearchBox.sendKeys(Keys.BACK_SPACE);
 			SearchBox.sendKeys("s");
+			Thread.sleep(2000);
+			SearchBox.clear();
+			SearchBox.sendKeys("Store transactions");
 
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(40));
 			base.pressKey(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), "ENTER");
 			Thread.sleep(20000);
 
 			wait.until(ExpectedConditions.visibilityOfElementLocated(LoginPageObj.Ele_ErrorMessage("reactGrid fill-width fill-height")));
-			base.buttonClick(StatementPostingObj.Btn_ReceiptNo("dyn-headerCell", "RBOTransactionTable_receiptId"));
+			for (int i = 0; i < 15; i++) {
+
+				base.ClickCondition(
+						StatementPostingObj.Btn_ReceiptNo("dyn-headerCell", "RBOTransactionTable_receiptId")
+						);
+
+				try {
+					new WebDriverWait(driver, Duration.ofSeconds(20))
+					.until(ExpectedConditions.visibilityOfElementLocated(
+							NormalSaleGoldAndSilverObj.Ele_ERPCustAccntisExactly("FilterField_RBOTransactionTable")
+							));
+
+					System.out.println("Found the Receipt");
+					break;   // STOP LOOP when found
+
+				} catch (Exception e) {
+					driver.navigate().refresh();   // optional retry logic
+				}
+			}
 			base.setData(NormalSaleGoldAndSilverObj.Ele_ERPCustAccntisExactly("FilterField_RBOTransactionTable"), InvoiceNo);
-			base.buttonClick(NormalSaleGoldAndSilverObj.Ele_RunNowERP("__RBOTransactionTable_receiptId_ApplyFilters_label"));
+			base.ClickCondition(NormalSaleGoldAndSilverObj.Ele_RunNowERP("__RBOTransactionTable_receiptId_ApplyFilters_label"));
 
 			Thread.sleep(5000);
 			Status = base.GetValue(NormalSaleGoldAndSilverObj.Ele_WarehouseName("Statement_ValidationStatus")).trim();
@@ -151,7 +175,8 @@ public class StatementPosting extends BasePge {
 		}
 		asrt.assertEquals(Status, StatementPostingTestData.TC310_Status,"Validation status mismatch: Expected is "+Status+" but found "+"Successful"+" in store transaction page");		
 		String Time = base.GetValue(NormalSaleGoldAndSilverObj.Ele_WarehouseName("DetailsHeader_TransTime")).trim();
-		String Date = base.GetValue(NormalSaleGoldAndSilverObj.Ele_ERPReceiveAmt("Date"));
+		//String Date = base.GetValue(NormalSaleGoldAndSilverObj.Ele_ERPReceiveAmt("Date"));
+		String Date = base.GetValue(NormalSaleGoldAndSilverObj.Ele_WarehouseName("DetailsHeader_TransDate"));
 		System.out.println("TimeStr: " + Time);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a",Locale.ENGLISH);
 		LocalTime time = LocalTime.parse(Time, formatter);
@@ -161,9 +186,10 @@ public class StatementPosting extends BasePge {
 		System.out.println("OneMinuteLater:"+OneMinuteLater);
 
 		//Step 6: Go to Statements
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
 		WebElement SearchBox1 = driver.findElement(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"));
 		Thread.sleep(1000);
+		SearchBox1.clear();
 		SearchBox1.sendKeys("Statement");
 		SearchBox1.sendKeys(Keys.ARROW_RIGHT); 
 		Thread.sleep(1000);
@@ -171,6 +197,9 @@ public class StatementPosting extends BasePge {
 		SearchBox1.sendKeys("s");
 		SearchBox1.sendKeys(Keys.BACK_SPACE);
 		SearchBox1.sendKeys("s");
+		Thread.sleep(2000);
+		SearchBox1.clear();
+		SearchBox1.sendKeys("Statements");
 
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		base.pressKey(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), "ENTER");
@@ -178,8 +207,9 @@ public class StatementPosting extends BasePge {
 		//Step 7: Click on new --> enter start date --> enter to date
 		wait.until(ExpectedConditions.visibilityOfElementLocated(StatementPostingObj.Btn_Add("SystemDefinedNewButton"))); 
 		base.buttonClick(StatementPostingObj.Btn_Add("SystemDefinedNewButton"));
-		base.setData(StatementPostingObj.Edt_StoreNo("grid"), StatementPostingTestData.TC310_StoreID);
-		base.pressKey(StatementPostingObj.Edt_StoreNo("grid"), "ENTER");
+		base.setData(StatementPostingObj.Edt_StoreNo("grid"), UtilityTestData.WarehouseId);
+		//base.pressKey(StatementPostingObj.Edt_StoreNo("grid"), "ENTER");
+		base.ClickCondition(LoginPageObj.Edt_Alert("OK"));
 		base.scrollToElement(NormalSaleGoldAndSilverObj.Ele_WarehouseName("TransactionInterval_transFromDate"));
 		base.setData(NormalSaleGoldAndSilverObj.Ele_WarehouseName("TransactionInterval_transFromDate"), Date);
 		base.setData(NormalSaleGoldAndSilverObj.Ele_WarehouseName("TransactionInterval_transToDate"), Date);
@@ -198,16 +228,16 @@ public class StatementPosting extends BasePge {
 		//Expected : Check for any errors in my batch job
 		Thread.sleep(5000);
 		base.excuteJsClick(StatementPostingObj.Btn_Calculate("RetailStatementPost_label", "RetailEodStatementTable"));
-		Thread.sleep(5000);
-		base.buttonClick(StatementPostingObj.Btn_Add("Yes"));
+		Thread.sleep(15000);
+		base.ClickCondition(StatementPostingObj.Btn_Add("Yes"));
 
-		base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
+		//base.buttonClick(NormalSaleGoldAndSilverObj.Btn_ViewMore("button-commandRing Find-symbol"));
 		base.setData(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), StatementPostingTestData.TC310_BatchJob);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		base.pressKey(NormalSaleGoldAndSilverObj.Ele_Name("NavigationSearchBox_searchBoxInput_input"), "ENTER");
 
-		base.buttonClick(NormalSaleGoldAndSilverObj.Ele_Transaction("public_fixedDataTableCell_cellContent", "Scheduled start date/time"));
-		base.buttonClick(LoginPageObj.Edt_Alert("Sort newest to oldest"));
+		base.ClickCondition(NormalSaleGoldAndSilverObj.Ele_Transaction("public_fixedDataTableCell_cellContent", "Scheduled start date/time"));
+		base.ClickCondition(LoginPageObj.Edt_Alert("Sort newest to oldest"));
 		String StatementStatus = base.GetValue(NormalSaleGoldAndSilverObj.Ele_StatusERP("2", "Ended"));
 		asrt.assertEquals("Ended", StatementStatus, "Statment status is not ended");
 	}
